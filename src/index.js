@@ -1,6 +1,8 @@
 //TODO: 
 // - Style everything
+// - cash and credit pages
 // - timeout
+// - reset the cart once the purchase is made
 
 import { initializeApp } from  'firebase/app'
 import {
@@ -123,9 +125,13 @@ function loadInventory(itemsRay) {
     let docRef;
     const updatePromises = [];
 
-    let check = $(`#coc`).val() === '1' ? checkoutFunc.submitCreditCard() : checkoutFunc.submitCash($("input[id='cash']").val(), cart.total)
-    // console.log($("input[id='cash']").val())
-    // console.log(check)
+    let check = $(`#coc`).val() === '1' ? checkoutFunc.submitCreditCard() : checkoutFunc.submitCash(cart.total)
+    if($(`#coc`).val() === '1'){
+      check = checkoutFunc.submitCreditCard()
+    }else{
+      check = checkoutFunc.submitCash(cart.total)
+    }
+    console.log(check)
     // we need to go through all the items in the cart
     if(check){
       for (const key in cart) {
@@ -173,7 +179,6 @@ function loadInventory(itemsRay) {
                   console.log('All updates successful');
                   cart = {};
                   console.log(cart);
-                  location.reload()
               })
               .catch((error) => {
                   console.error('Error updating documents:', error);
