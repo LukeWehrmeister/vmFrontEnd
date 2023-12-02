@@ -145,6 +145,9 @@ function linkCards(cart, inventoryObj){
         // $(`span[id=${id}]`).html($(`#${id}`).val())
         addQuantity(cart, inventoryObj, card.id, parseInt($(`input[id=${card.id}]`).val()));
       }
+      else{
+        alert("Out of stock!");
+      }
     })
   })
 }
